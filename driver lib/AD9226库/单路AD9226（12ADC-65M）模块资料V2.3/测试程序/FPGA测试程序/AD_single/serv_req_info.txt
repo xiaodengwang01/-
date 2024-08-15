@@ -1,0 +1,20 @@
+<internal_error>
+	<executable>quartus.exe</executable>
+	<sub_system>unknown</sub_system>
+	<file>unknown</file>
+	<line>0</line>
+	<callstack>
+	0x00000064:
+	0x00ca909b: GCL_AFC + 0x3909b (?OnClose@AFC_CHILD_FRAME@@QAEXXZ + 0x13b)
+	0x025dbe7f: mfc90 + 0x5be7f
+	0x74df86ab: USER32 + 0x386ab (DispatchMessageW + 0xc3b)
+	0x74dd8d8b: USER32 + 0x18d8b (CallWindowProcA + 0x8b)
+	0x025db147: mfc90 + 0x5b147
+	</callstack>
+	<error>Access Violation at 0X00000064</error>
+	<date>Thu Feb 28 19:19:57 2019</date>
+	<version>Quartus II Version 9.0 Build 132 02/25/2009 SJ Full Version</version>
+	<full_error>Access Violation at 0X00000064
+Quartus II Version 9.0 Build 132 02/25/2009 SJ Full Version </full_error>
+</internal_error>
+

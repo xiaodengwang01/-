@@ -1,0 +1,40 @@
+采用软件模拟SPI
+ads1274设置为SPI模式 离散输出 format：010
+MCLK采用片上晶振
+引脚设置
+SYNC 同步引脚，作复位使用，初始化时拉低拉高一次
+DRDY 数据准备引脚，数据准备好后自动拉低，作为输入引脚检测下降沿
+DOUT1-4 数据输出引脚
+SCLK 传输时钟
+
+ads1274在几百mv时测量较准，实际使用时需要校正/拟合
+
+
+main.c
+
+ads1274_init();
+  while (1)
+  {
+    /* USER CODE END WHILE */
+
+    /* USER CODE BEGIN 3 */
+	 // printf("s3\r\n");
+	  ads1274_Data(100,dat1,NULL,NULL,NULL);
+//调用 ads1274_Data 函数，从ADS1274读取数据。
+//第一个参数 100 表示要读取的数据点数。
+//第二个参数 dat1 是一个指向数组的指针，该数组用于存储从ADS1274读取的原始数据。
+//其余的参数被设置为 NULL，表示不使用其他通道的数据。
+
+	  Method_Data_Binary_to_Float(dat1,tdat,100);
+//将 dat1 数组中的二进制数据转换为浮点数形式的电压值，并将结果存储在 tdat 数组中。
+//第一个参数 dat1 是原始数据的数组。
+//第二个参数 tdat 是浮点数数组，用于存储转换后的数据。
+//第三个参数 100 表示要转换的数据点数。/
+
+	  int ans=0;//初始化一个整型变量 ans，用于累加转换后的数据。
+	  for(int i=1;i<=20;i++){
+		  ans=ans+(int)(tdat[i]*1000)-61100;
+	  }
+	  ans/=20;
+	  printf("%d\r\n",ans);
+  }

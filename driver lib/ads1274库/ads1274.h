@@ -1,0 +1,23 @@
+#include"main.h"
+#define ADS1274_SCLK_LOW HAL_GPIO_WritePin(ADS1274_SCLK_GPIO_Port,ADS1274_SCLK_Pin,GPIO_PIN_RESET)
+#define ADS1274_SCLK_HIGH HAL_GPIO_WritePin(ADS1274_SCLK_GPIO_Port,ADS1274_SCLK_Pin,GPIO_PIN_SET)
+
+#define ADS1274_SYNC_LOW HAL_GPIO_WritePin(ADS1274_SYNC_GPIO_Port,ADS1274_SYNC_Pin,GPIO_PIN_RESET)
+#define ADS1274_SYNC_HIGH HAL_GPIO_WritePin(ADS1274_SYNC_GPIO_Port,ADS1274_SYNC_Pin,GPIO_PIN_SET)
+
+#define ADS1274_DOUT1_VALUE HAL_GPIO_ReadPin(ADS1274_DOUT1_GPIO_Port,ADS1274_DOUT1_Pin)
+#define ADS1274_DOUT2_VALUE HAL_GPIO_ReadPin(ADS1274_DOUT2_GPIO_Port,ADS1274_DOUT2_Pin)
+
+#define ADS1274_DRDY_VALUE HAL_GPIO_ReadPin(ADS1274_DRDY_GPIO_Port,ADS1274_DRDY_Pin)
+
+void ads1274_init(void);
+void ads1274_Data(uint16_t num,uint32_t* dat1, uint32_t* dat2,uint32_t* dat3,uint32_t* dat4);
+void Method_Data_Binary_to_Float(uint32_t* dat_before,float* dat_after,uint16_t num);
+
+
+
+
+
+
+
+

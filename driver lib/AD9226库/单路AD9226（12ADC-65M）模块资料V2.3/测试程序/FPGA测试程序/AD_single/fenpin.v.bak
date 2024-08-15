@@ -1,0 +1,16 @@
+module fenpin (fin,fout);
+
+input  fin;
+output fout;
+
+reg    fout1;
+reg    fout;
+always@(posedge fin)
+begin 
+
+fout1<=~fout1;
+fout<=fout1;
+end
+
+
+endmodule

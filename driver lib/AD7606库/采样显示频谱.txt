@@ -1,0 +1,62 @@
+
+//简单下采样：(指从频谱数据中每隔固定间隔取一个点，直到获得所需的500个点),会丢失信息,慎用。
+void downsample(const float *input, float *output, int input_size, int output_size) 
+{
+    int factor = input_size / output_size;
+    for (int i = 0; i < output_size; i++) 
+        output[i] = input[i * factor];    
+}
+//平均采样：将频谱数据分成500段，并计算每段的平均值，这样可以保留更多的频谱信息
+void average_sample(const float *input, float *output, int input_size, int output_size) 
+{
+  int segment_size = input_size / output_size;
+  for (int i = 0; i < output_size; i++) 
+	{
+    float sum = 0;
+    for (int j = 0; j < segment_size; j++)
+        sum += input[i * segment_size + j];
+    output[i] = sum / segment_size;
+  }
+}
+//线性插值重采样，能够更好地保留原特征
+void linear_interpolation(const float *input, float *output, int input_size, int output_size) 
+{
+  for (int i = 0; i < output_size; i++) 
+	{
+		float x = (float)i * (input_size - 1) / (output_size - 1);
+		int x0 = (int)x;
+		int x1 = x0 + 1;
+		if (x1 >= input_size) x1 = input_size - 1;
+		float y0 = input[x0];
+		float y1 = input[x1];
+		output[i] = y0 + (x - x0) * (y1 - y0);
+  }
+}
+
+//最大值采样（频谱数据分成500段，取每段的最大值）可以保留频谱的峰值信息
+void max_pooling(const float *input, float *output, int input_size, int output_size) 
+{
+  int segment_size = input_size / output_size;
+  for (int i = 0; i < output_size; i++) 
+	{
+    float max_value = input[i * segment_size];
+    for (int j = 1; j < segment_size; j++) 
+      if (input[i * segment_size + j] > max_value) 
+         max_value = input[i * segment_size + j];
+        output[i] = max_value;
+  }
+}
+void ShowSpectrum(void)
+{
+//	downsample(spectrum, downsampled,4096,500); 
+//  max_pooling(spectrum, max_pooled, 4096, 500);
+//  average_sample(spectrum, averaged, 4096, 500);
+  max_pooling(mo2, sampled, inputwidth, width);//打算用这个采样方式显示
+	
+	/*采用“透传”：采样后的数据点直接从一个系统传输到另一个系统而不进行额外处理*/
+ 	printf("addt s0.id,0,500\xff\xff\xff");  //透传指令结束符\xff\xff\xff直接在字符串发送三个转义字符即可
+	//HAL_Delay(99);//必要的延迟时间，确保接收设备有足够的时间准备接收数据。
+	for(int i = width; i >0; i--)  //先最后面开始发，再到最前面,才能让频谱从左到右正常显示
+		printf("%c", (int)sampled[i-1]);//发送转换后的500个数据点，可以用%c（char类型）也可以用%d	
+	printf("\x01\xff\xff\xff");//确保透传结束，以免影响下一条指令
+}
